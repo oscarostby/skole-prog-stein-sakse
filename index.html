@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stein Sakse Papir</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex; align-items:center;">
+            <img src="logo.png" alt="Logo">
+            <h1>Steiner og sakser Papir</h1>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <img src="menu.png" alt="Menu">
+        </div>
+    </div>
+    <div class="responsive-menu">
+        <ul>
+            <li><a href="#">Hjem</a></li>
+            <li><a href="spill.html">Steinsakspapir</a></li>
+            <li><a href="#" onclick="openModal()">Regler</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <h1>Stein Saks og Papir</h1>
+        <h2>The ultimate battle begins here</h2>
+        <br>
+        <button onclick="openModal()">Les reglene her</button>
+        <div class="video-box">
+            <video autoplay controls="false" muted>
+                <source src="bide.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <img src="close.png" alt="Close" class="close" onclick="closeModal()">
+            <h2>Rules of Rock Paper Scissors</h2>
+            <p>
+               1. In a world where every gesture is a crossroads between destiny and survival, two relentless warriors face each other. Not only honor but life itself is at stake. Their eyes meet, their gazes like ice-cold swords in a deadly showdown. In this grim moment, there is only one rule that governs them: win, or vanish.
+                <br><br>
+              2.  There's no time for second chances or missteps. The decision is made in an instant, with no room for regret. With a fist clenched like a frozen stone, the first warrior displays their power and determination. The second warrior responds with an open palm, a fateful paper gesture. The confrontation is inevitable, and the outcome is unpredictable.
+                <br><br>
+               3. Rock, a monument of power, collides with scissors, sharp as a samurai's sword. Scissors, eager to cut any doubt, yield to the protection of paper. Paper, vulnerable yet resilient, covers and repels the attack of rock.
+                <br><br>
+                4. The number of victories counts, and both warriors know that winning two out of three rounds means life or death. For each choice they make, the tension is as sharp as a blade. It's as if fate itself is waiting to cast its dice.
+                <br><br>
+                5. In the heat of battle, they move like shadows, shaping their choices with the focus of a sage and the strength of a mercenary. Rock, scissors, paper – symbols of their destiny – are pronounced with an intensity that could turn the tide forever.
+                <br><br>
+                6. In this simple yet fateful competition, neither of them can afford to lose. They play best of three, and each victory brings them closer to survival or defeat. Fate is tightly woven into every move, and nothing can be changed once the choices are made.
+                <br><br>
+                7. And so they stand, two fates intertwined by a single rule. With every strike of the fist, every unfold of the palm, they write the story of their own destiny. Life or death – it's now up to their choices to decide.
+            </p>
+        </div>
+    </div>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Kontakt oss</h3>
+                <p>Email: steinsakspapir@nfssp.no</p>
+                <p>Nettsted: http://www.nfssp.no/</p>
+            </div>
+            <div class="footer-section">
+                <h3>Følg oss</h3>
+                <ul class="social-icons">
+                    <li><a href="https://www.facebook.com/steinsakspapir?locale=nb_NO" class="icon-link"><img src="facbok.png" alt="Facebook"></a></li>
+                  </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Stein Sakse Papir. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    
+    <script src="script.js"></script>
+</body>
+</html>
