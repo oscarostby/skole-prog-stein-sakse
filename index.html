@@ -8,17 +8,17 @@
 <body>
     <div class="header">
         <div style="display:flex; align-items:center;">
-            <img src="logo.png" alt="Logo">
+            <img src="/Images/logo.png" alt="Logo">
             <h1>Steiner og sakser Papir</h1>
         </div>
         <div class="menu-toggle" onclick="toggleMenu()">
-            <img src="menu.png" alt="Menu">
+            <img src="/Images/menu.png" alt="Menu">
         </div>
     </div>
     <div class="responsive-menu">
         <ul>
             <li><a href="#">Hjem</a></li>
-            <li><a href="spill.html">Steinsakspapir</a></li>
+            <li><a href="/spill/spill.html">Steinsakspapir</a></li>
             <li><a href="#" onclick="openModal()">Regler</a></li>
         </ul>
     </div>
@@ -26,17 +26,17 @@
         <h1>Stein Saks og Papir</h1>
         <h2>The ultimate battle begins here</h2>
         <br>
-        <button onclick="openModal()">Les reglene her</button>
+        <button onclick="window.location.href='/spill/spill.html'">Spill her!</button>
         <div class="video-box">
             <video autoplay controls="false" muted>
-                <source src="bide.mp4" type="video/mp4">
+                <source src="/videor/bide.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
     </div>
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <img src="close.png" alt="Close" class="close" onclick="closeModal()">
+            <img src="/Images/close.png" alt="Close" class="close" onclick="closeModal()">
             <h2>Rules of Rock Paper Scissors</h2>
             <p>
                1. In a world where every gesture is a crossroads between destiny and survival, two relentless warriors face each other. Not only honor but life itself is at stake. Their eyes meet, their gazes like ice-cold swords in a deadly showdown. In this grim moment, there is only one rule that governs them: win, or vanish.
@@ -72,7 +72,7 @@
             <div class="footer-section">
                 <h3>Følg oss</h3>
                 <ul class="social-icons">
-                    <li><a href="https://www.facebook.com/steinsakspapir?locale=nb_NO" class="icon-link"><img src="facbok.png" alt="Facebook"></a></li>
+                    <li><a href="https://www.facebook.com/steinsakspapir?locale=nb_NO" class="icon-link"><img src="/Images/facbok.png" alt="Facebook"></a></li>
                   </ul>
             </div>
         </div>

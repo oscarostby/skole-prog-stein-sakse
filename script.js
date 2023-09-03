@@ -42,10 +42,10 @@ function toggleMenu() {
 
     if (menu.classList.contains("active")) {
         menu.classList.remove("active");
-        menuToggle.src = "menu.png";
+        menuToggle.src = "/Images/menu.png";
     } else {
         menu.classList.add("active");
-        menuToggle.src = "close.png";
+        menuToggle.src = "/Images/close.png";
     }
 }
 

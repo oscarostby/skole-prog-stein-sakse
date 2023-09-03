@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Paper Scissors Battle</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  .battle-field {
+    display: flex;
+    align-items: center;
+  }
+  .user-choice, .computer-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+  }
+  .choice-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  /* Modify the choice buttons to be horizontal */
+  .choice {
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+    background-color: transparent;
+    border: 2px solid #333;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .choice img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+    background-color: white;
+  }
+  .choice:hover {
+    transform: scale(1.1);
+  }
+  .result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+    display: none;
+  }
+  .round-result {
+    font-size: 18px;
+  }
+  .countdown {
+    font-size: 24px;
+    margin-top: 10px;
+    display: none;
+  }
+  /* Add animations */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes blur {
+    0% { backdrop-filter: blur(0); }
+    100% { backdrop-filter: blur(10px); }
+  }
+  .hidden {
+    display: none;
+  }
+  /* Modify the Play Again button */
+  .play-again-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: transparent;
+    border: 2px solid #333;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .play-again-button:hover {
+    background-color: #333;
+    color: #fff;
+  }
+
+  /* Style for user's choice in the top right corner */
+  .user-choice-top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Adjusted to top right */
+  }
+
+  /* Style for countdown timer in the top right corner */
+  .countdown-top-right {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    font-size: 24px;
+    display: none;
+  }
+
+  /* Limit the maximum width of the bot's choice image */
+  #computer-choice-img {
+    max-width: 500px;
+    height: auto;
+  }
+
+  /* Limit the maximum width of the user's choice image */
+  #user-choice-img {
+    max-width: 100px;
+    height: auto;
+  }
+
+  /* Counter for user's wins in the top left corner */
+  .user-wins-counter {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  /* Counter for bot's wins just below user's wins */
+  .bot-wins-counter {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  /* Back Button */
+  .back-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid #333;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .back-button:hover {
+    background-color: #333;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Rock Paper Scissors Battle</h1>
+  <!-- Counter for user's wins in the top left corner -->
+  <div class="user-wins-counter" id="user-wins-counter">Your Wins: 0</div>
+  <!-- Counter for bot's wins just below user's wins -->
+  <div class="bot-wins-counter" id="bot-wins-counter">Bot Wins: 0</div>
+  <div class="battle-field">
+    <div class="user-choice-top-right">
+      <h3>Your Choice</h3>
+      <img src="" alt="" id="user-choice-img">
+    </div>
+    <div class="user-choice">
+      <h2>Your Choice</h2>
+      <div class="choice-container">
+        <!-- Move the choice buttons here -->
+        <div class="choice" onclick="play('rock')">
+          Rock
+          <img src="../Images/rock.png" alt="Rock">
+        </div>
+        <div class="choice" onclick="play('paper')">
+          Paper
+          <img src="../Images/paper.png" alt="Paper">
+        </div>
+        <div class="choice" onclick="play('scissors')">
+          Scissors
+          <img src="../Images/scissors.png" alt="Scissors">
+        </div>
+      </div>
+    </div>
+    <div class="computer-choice">
+      <h2 id="bot-choice-text" class="hidden">Bot's Choice</h2>
+      <!-- Add loading animation here -->
+      <div id="loading" class="hidden">
+        Loading...
+        <div class="spinner"></div>
+      </div>
+      <!-- Display the bot's choice here -->
+      <img src="" alt="" id="computer-choice-img">
+    </div>
+  </div>
+  <!-- Result is displayed below the battle field -->
+  <div class="result" id="result">
+    <p class="round-result"></p>
+    <p class="match-result"></p>
+  </div>
+  <!-- Countdown timer in the top right corner -->
+  <div class="countdown-top-right" id="countdown">6</div>
+  <!-- Play Again button -->
+  <button class="play-again-button hidden" onclick="resetGame()">Play Again</button>
+
+  <!-- Back Button -->
+  <a href="../index.html" class="back-button">Back</a>
+</div>
+<!-- Add audio elements for sound effects -->
+<audio id="win-sound" src="../Lyder/win.mp3"></audio>
+<audio id="lose-sound" src="../Lyder/lose.mp3"></audio>
+<audio id="tie-sound" src="../Lyder/tie.mp3"></audio>
+<!-- Add final winning and losing sounds -->
+<audio id="final-win-sound" src="../Lyder/final_win.mp3" loop></audio>
+<audio id="final-lose-sound" src="../Lyder/final_lose.mp3" loop></audio>
+
+<script>
+let userScore = 0;
+let computerScore = 0;
+let roundsPlayed = 0;
+let countdownInterval;
+let countdownTimer;
+let gameOver = false; // Add a variable to track game-over state
+
+// Get references to the final win and final lose audio elements
+const finalWinSound = document.getElementById('final-win-sound');
+const finalLoseSound = document.getElementById('final-lose-sound');
+
+function startCountdown() {
+  const countdownElement = document.getElementById('countdown');
+  countdownElement.classList.remove('hidden');
+  countdownElement.textContent = '6';
+
+  let count = 5;
+
+  clearInterval(countdownInterval); // Clear any previous countdown intervals
+
+  countdownInterval = setInterval(() => {
+    if (count >= 0) {
+      countdownElement.textContent = count;
+      count--;
+    } else {
+      clearInterval(countdownInterval);
+      countdownElement.classList.add('hidden');
+      resetGame();
+    }
+  }, 1000);
+
+  countdownTimer = setTimeout(() => {
+    clearInterval(countdownInterval);
+    countdownElement.classList.add('hidden');
+    resetGame();
+  }, 6000); // Automatically reset the game after 6 seconds
+}
+
+function play(userChoice) {
+  if (roundsPlayed < 3 && !gameOver) { // Check if the game is not over
+    const choices = ['rock', 'paper', 'scissors'];
+    const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+    // Disable choice buttons while loading
+    const choiceButtons = document.querySelectorAll('.choice');
+    choiceButtons.forEach(button => (button.style.pointerEvents = 'none'));
+
+    // Hide user's choices
+    document.querySelector('.choice-container').style.display = 'none';
+
+    // Show loading animation
+    const loadingDiv = document.getElementById('loading');
+    loadingDiv.style.display = 'block';
+
+    // Hide the text "Your Choice"
+    document.querySelector('.user-choice h2').style.display = 'none';
+
+    // Show the text "Bot's Choice"
+    const botChoiceText = document.getElementById('bot-choice-text');
+    botChoiceText.classList.remove('hidden');
+
+    setTimeout(() => {
+      // Update the player's choice image
+      const userChoiceImg = document.getElementById('user-choice-img');
+      userChoiceImg.src = `../Images/${userChoice}.png`;
+
+      // Update the bot's choice image
+      const botChoiceImg = document.getElementById('computer-choice-img');
+      botChoiceImg.src = `../Images/${computerChoice}.png`; // Set the bot's choice image
+
+      document.querySelector('.user-choice').style.display = 'none';
+      document.querySelector('.computer-choice').style.animation = 'rotate 1s linear';
+
+      let result = '';
+      if (userChoice === computerChoice) {
+        result = "It's a tie!";
+        document.getElementById('tie-sound').play(); // Play tie sound
+      } else if (
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = 'You win!';
+        userScore++;
+        document.getElementById('win-sound').play(); // Play win sound
+      } else {
+        result = 'Bot wins!';
+        computerScore++;
+        document.getElementById('lose-sound').play(); // Play lose sound
+      }
+
+      // Display the result
+      const resultElement = document.getElementById('result');
+      resultElement.style.display = 'block';
+      resultElement.querySelector('.round-result').innerText = `You chose ${userChoice}, bot chose ${computerChoice}. ${result}`;
+
+      // Update match result
+      roundsPlayed++;
+      if (userScore === 3 || computerScore === 3) {
+        gameOver = true; // Set game-over state to true
+        if (userScore === 3) {
+          resultElement.querySelector('.match-result').innerText = 'You won the match!';
+          finalWinSound.play(); // Play final winning sound on repeat
+        } else {
+          resultElement.querySelector('.match-result').innerText = 'Bot won the match!';
+          finalLoseSound.play(); // Play final losing sound on repeat
+        }
+        // Show Play Again button and blur the screen
+        document.querySelector('.play-again-button').classList.remove('hidden');
+        document.body.style.animation = 'blur 1s';
+        document.body.style.backdropFilter = 'blur(10px)';
+      } else {
+        // Start the countdown to reset the game
+        startCountdown();
+      }
+
+      // Enable choice buttons and reset animations
+      choiceButtons.forEach(button => (button.style.pointerEvents = 'auto'));
+      document.querySelector('.computer-choice').style.animation = '';
+      // Hide loading animation
+      loadingDiv.style.display = 'none';
+      // Update win counters
+      document.getElementById('user-wins-counter').textContent = `Your Wins: ${userScore}`;
+      document.getElementById('bot-wins-counter').textContent = `Bot Wins: ${computerScore}`;
+    }, 1500);
+  }
+}
+
+function resetGame() {
+  clearInterval(countdownInterval);
+  clearTimeout(countdownTimer);
+  
+  if (gameOver) {
+    // Handle game-over actions
+    userScore = 0;
+    computerScore = 0;
+    document.getElementById('user-wins-counter').textContent = 'Your Wins: 0';
+    document.getElementById('bot-wins-counter').textContent = 'Bot Wins: 0';
+    gameOver = false; // Reset game-over state
+    finalWinSound.pause(); // Pause final win sound
+    finalLoseSound.pause(); // Pause final lose sound
+  }
+
+  document.querySelector('.play-again-button').classList.add('hidden');
+  document.body.style.animation = '';
+  document.body.style.backdropFilter = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.querySelector('.choice-container').style.display = 'flex';
+  document.getElementById('computer-choice-img').src = '';
+  document.getElementById('user-choice-img').src = '';
+
+  // Show the text "Your Choice"
+  document.querySelector('.user-choice h2').style.display = 'block';
+
+  // Hide the text "Bot Choice"
+  const botChoiceText = document.getElementById('bot-choice-text');
+  botChoiceText.classList.add('hidden');
+  // Show the user's choice again on the bot's screen
+  document.querySelector('.computer-choice').style.animation = 'rotate 1s linear';
+  setTimeout(() => {
+    document.querySelector('.computer-choice').style.animation = '';
+    document.querySelector('.user-choice').style.display = 'block';
+  }, 1000);
+
+  // Reset rounds played and countdown
+  roundsPlayed = 0;
+  // Comment out the following line to avoid auto-restarting the game
+  // startCountdown();
+}
+</script>
+</body>
+</html>
